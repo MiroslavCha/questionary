@@ -1,0 +1,16 @@
+{
+  "name": "questionary",
+  "version": "1.0.0",
+  "description": "Feedback qustionary",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "MiroCh",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "crypto-js": "^3.1.9-1",
+    "express": "^4.14.0"
+  }
+}
