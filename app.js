@@ -20,6 +20,11 @@ app.get('/quest', function(req, res) {
 	res.end(JSON.stringify({questions:questions}));
 });
 
+app.post('/quest', function(req, res) {
+	var dataRecord = req.body.record;
+}
+)
+
 var server = app.listen(8080, function () {
 	console.log('Listenning on port 8080');
 });

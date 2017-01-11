@@ -14,6 +14,20 @@ $.ajax ({
   }
 });
 
+$('#upload').click(function() {
+  $.ajax ({
+    type: "POST",
+    url: "/quest"
+    contentType: 'application/json',
+    data: JSON.stringify({}),
+    success: function() {
+       //data was sent dialog
+    }
+  })
+
+
+}
+
 function getParameterByName(name, url) {
     if (!url) {
       url = window.location.href;
