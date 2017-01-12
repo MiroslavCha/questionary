@@ -2,7 +2,7 @@
 $.ajax ({
   type: "GET",
   url: "quest",
-  data: { id: getParameterByName("param")} ,
+  data: { id1: getParameterByName("param1"), id2: getParameterByName("param2")} ,
   contentType: 'application/json; charset=utf-8',
   success: function(data) {
     console.log("Asking data " + data.questions.length);
@@ -17,16 +17,14 @@ $.ajax ({
 $('#upload').click(function() {
   $.ajax ({
     type: "POST",
-    url: "/quest"
+    url: "/quest",
     contentType: 'application/json',
     data: JSON.stringify({}),
-    success: function() {
+    success: function(data) {
        //data was sent dialog
     }
   })
-
-
-}
+});
 
 function getParameterByName(name, url) {
     if (!url) {
