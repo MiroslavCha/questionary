@@ -40,6 +40,8 @@ function prepareData()
       rec.push(responce);
   }
 
+  var responce = {'id': i, 'val': value };
+
   var ret = JSON.stringify({record: rec});
   return ret;
 }
