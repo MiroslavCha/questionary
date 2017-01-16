@@ -34,12 +34,70 @@ app.get('/quest', function(req, res) {
 
 app.post('/quest', function(req, res) {
 	var dataRecord = req.body.record;
-	var ipAdress = req.ip; 
+	var ipAddress = req.ip;
+	var dbname = '';
+	var role = '';
+	var commentGood = '';
+	var commentBad = '';
+	var answers = [];
+
 	console.log(dataRecord);
 
+	// for (var i = 0; i < dataRecord.length; i++)
+	// {
+	// 	var obj = dataRecord[i];
+	//
+	// 	if (obj.id == "name") {
+	// 		dbname = obj.val;
+	// 	} else if (obj.id = "role") {
+	// 		role = obj.val;
+	// 	} else if (obj.id = "comment-good") {
+	// 		commentGood = obj.val;
+	// 	} else if (obj.id = "comment-bad") {
+	// 		commentBad = obj.val;
+	// 	}
+	// 	else { answers[obj.id] = obj.val; }
+	// }
+
+	const pg = require('pg');
+	const connectionString = 'postgres://Katka:Katka@localhost:5432/questionnaire';
+
+	pg.connect(connectionString, function (err, client, done)
+	{
+  	//Err - This means something went wrong connecting to the database.
+  	if (err) {
+    	console.error(err);
+    	process.exit(1);
+  	}
+		else {
+			console.log("Connection ok");
+		}
+	});
+	//
+	// const results = [];
+	// const query = client.query('SELECT * FROM $1 WHERE ip= $2;', [dbname, ipAddress], function (err, result) {
+	// 		done();
+	// 		if (err) {
+	// 			return console.error('error happened during query', err);
+	// 		}
+	// 		console.log(result.rows.length);
+	// 	}
+ // 	);
+	//  // Stream results back one row at a time
+	//  query.on('row', (row) => {
+	// 	 results.push(row);
+	//  });
+	//
+	//  query.on('end', () => {
+	//       done();
+	//       return res.json(results);
+	//     });
+
+	//check ip
 
 
-	//console.log(req.ip);
+
+
 
 	//res.status(404).end();
 	res.status(200).end();
