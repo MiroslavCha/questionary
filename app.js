@@ -43,60 +43,102 @@ app.post('/quest', function(req, res) {
 
 	console.log(dataRecord);
 
-	// for (var i = 0; i < dataRecord.length; i++)
-	// {
-	// 	var obj = dataRecord[i];
-	//
-	// 	if (obj.id == "name") {
-	// 		dbname = obj.val;
-	// 	} else if (obj.id = "role") {
-	// 		role = obj.val;
-	// 	} else if (obj.id = "comment-good") {
-	// 		commentGood = obj.val;
-	// 	} else if (obj.id = "comment-bad") {
-	// 		commentBad = obj.val;
-	// 	}
-	// 	else { answers[obj.id] = obj.val; }
-	// }
+	for (var i = 0; i < dataRecord.length; i++)
+	{
+		var obj = dataRecord[i];
+
+		if (obj.id == "name") {
+			dbname = Base64.decode(obj.val);
+		} else if (obj.id == "role") {
+			role = Base64.decode(obj.val);
+		} else if (obj.id == "comment-good") {
+			if (obj.val) {
+				commentGood = obj.val;
+			}
+			else {
+				commentGood = 'none';
+			}
+		} else if (obj.id == "comment-bad") {
+			if (obj.val) {
+				commentBad = obj.val;
+			}
+			else {
+				commentBad = 'none';
+			}
+		}
+		else {
+			if (obj.val) {
+				answers[obj.id] = obj.val;
+			}
+			else {
+				answers[obj.id] = -1;
+			}
+		}
+	}
+
+	console.log('Database name:' + dbname);
 
 	const pg = require('pg');
-	const connectionString = 'postgres://Katka:Katka@localhost:5432/questionnaire';
+	const connectionString = 'postgres://Katka@localhost:5432/questionnaire';
+	const results = [];
 
 	pg.connect(connectionString, function (err, client, done)
 	{
   	//Err - This means something went wrong connecting to the database.
   	if (err) {
+			done();
     	console.error(err);
     	process.exit(1);
   	}
+
+		var results = [];
+		var que = 'SELECT * FROM ' + dbname + ' WHERE ip = \'' + ipAddress + '\';'
+
+		const query = client.query(que, function (err, result) {
+			if (err) {
+				done();
+				return console.error('error happened during select query', err);
+			}
+		});
+	 	// Stream results back one row at a time
+	 	query.on('row', (row) => {
+		 	results.push(row);
+	 	});
+
+    query.on('end', () => {
+		//check ip
+		if (results.length == 0)
+		{
+			console.log("Zaznam este neexistuje");
+
+			var que = 'INSERT INTO ' + dbname + ' (role_name, ans1, ans2, ans3, ans4, ans5, ans6, ans7, ans8, ans9, ans10, \
+				ans11, ans12, ans13, ans14, ans15, ans16, ans17, ans18, ans19, ans20, ans21, ans22, ans23, ans24, \
+				ans25, ans26, ans27, ans28, ans29, ans30, ans31, ans32, ans33, ans34, ans35, ans36, ans37, ans38, \
+				comment_good, comment_bad, ip) values ('
+				+ '\'' + role + '\', ' + answers[1] + ', ' + answers[2] + ', ' + answers[3] + ', ' + answers[4] + ', '
+				+ answers[5] + ', ' + answers[6] + ', ' + answers[7] + ', ' + answers[8] + ', ' + answers[9] + ', '
+				+ answers[10] + ', ' + answers[11] + ', ' + answers[12] + ', ' + answers[13] + ', ' + answers[14] + ', '
+				+ answers[15] + ', ' + answers[16] + ', ' + answers[17] + ', ' + answers[18] + ', ' + answers[19] + ', '
+				+ answers[20] + ', ' + answers[21] + ', ' + answers[22] + ', ' + answers[23] + ', ' + answers[24] + ', '
+				+ answers[25] + ', ' + answers[26] + ', ' + answers[27] + ', ' + answers[28] + ', ' + answers[29] + ', '
+				+ answers[30] + ', ' + answers[31] + ', ' + answers[32] + ', ' + answers[33] + ', ' + answers[34] + ', '
+				+ answers[35] + ', ' + answers[36] + ', ' + answers[37] + ', ' + answers[38] + ', \'' + commentGood + '\', \''
+				+ commentBad + '\', \'' + ipAddress + '\');';
+
+			console.log(que);
+
+			client.query(que, function(err, result) {
+					done();
+					if (err) {
+        		return console.error('error happened during insert query', err);
+      		}
+				});
+		}
 		else {
-			console.log("Connection ok");
+			console.log("Zaznam uz existuje");
 		}
 	});
-	//
-	// const results = [];
-	// const query = client.query('SELECT * FROM $1 WHERE ip= $2;', [dbname, ipAddress], function (err, result) {
-	// 		done();
-	// 		if (err) {
-	// 			return console.error('error happened during query', err);
-	// 		}
-	// 		console.log(result.rows.length);
-	// 	}
- // 	);
-	//  // Stream results back one row at a time
-	//  query.on('row', (row) => {
-	// 	 results.push(row);
-	//  });
-	//
-	//  query.on('end', () => {
-	//       done();
-	//       return res.json(results);
-	//     });
-
-	//check ip
-
-
-
+	});
 
 
 	//res.status(404).end();
