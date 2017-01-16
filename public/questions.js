@@ -33,14 +33,22 @@ function prepareData()
 {
   var rec = [];
 
-  for (var i = 1; i <= 2; i++ ) {
+  var responce = { 'id' : 'name', 'val': getParameterByName("param1")};
+  rec.push(responce);
+  var responce = { 'id' : 'role', 'val': getParameterByName("param2")};
+  rec.push(responce);
+
+  for (var i = 1; i <= 38; i++ ) {
       var id = 'input[name=editList' + i +']:checked';
       var value = $(id).val();
       var responce = {'id': i, 'val': value };
       rec.push(responce);
   }
 
-  var responce = {'id': i, 'val': value };
+  var responce = {'id': 'comment-good', 'val': $("textarea#comment-good").val() };
+  rec.push(responce);
+  var responce = {'id': 'comment-bad', 'val': $("textarea#comment-bad").val() };
+  rec.push(responce);
 
   var ret = JSON.stringify({record: rec});
   return ret;
@@ -71,6 +79,7 @@ function createTitle(data) {
   table["petergejgus"] = "Peter Gejgus";
   table["lukasondriga"] = "Lukas Ondriga";
   table["michalsvoboda"] = "Michal Svoboda";
+  table["adrienavrbova"] = "Adriena Vrbova";
 
   var name = table[feedbackName.feedback_name];
   $('#title').append(name);
@@ -92,8 +101,11 @@ function appendQuestion(question, counter) {
       "<div class=radio-btn>" +
 
         "<input type='radio' name='editList" + counter + "' value='1'>" + "Always  " +
-        "<input type='radio' name='editList" + counter + "' value='2'>" +  "Never  " +
-        "<input type='radio' name='editList" + counter + "' value='3'>" + "Cost Change  " +
+        "<input type='radio' name='editList" + counter + "' value='2'>" +  "Often  " +
+        "<input type='radio' name='editList" + counter + "' value='3'>" + "Sometimes  " +
+        "<input type='radio' name='editList" + counter + "' value='4'>" + "Rarely  " +
+        "<input type='radio' name='editList" + counter + "' value='5'>" +  "Never  " +
+
       "</div>" +
      "</div>";
 
@@ -103,14 +115,14 @@ function appendQuestion(question, counter) {
 
 function addComments() {
   var comment =  "<div class='question-container'>" +
-    "<div class='question-body'>" + "What is good?" + "</div>" +
+    "<div class='question-body'>" + "Comments on strong sides (Written comments will be reported as they were written, without editing)" + "</div>" +
     "<textarea class='quest-input' id='comment-good'>" + "</textarea>"
     "</div>";
 
   $('#question-target').append(comment);
 
   comment =  "<div class='question-container'>" +
-    "<div class='question-body'>" + "What is bad?" + "</div>" +
+    "<div class='question-body'>" + "Comments on weak sites (Written comments will be reported as they were written, without editing)" + "</div>" +
     "<textarea class='quest-input' id='comment-bad'>" + "</textarea>"
     "</div>";
 
