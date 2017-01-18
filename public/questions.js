@@ -21,10 +21,10 @@ $('#upload').click(function() {
     contentType: 'application/json',
     data: prepareData(),
     success: function(data) {
-      alert("All OK");
+      alert("Everything went well. Yuor answers were submited. Thank you for your time!");
     },
     error: function(XMLHttpRequest, textStatus, errorThrown) {
-     alert("Some error");
+     alert("System error. Data were not submited! Please contact Katarina Bilikova (katarina.bilikova@kistler.com)");
    }
   })
 });
@@ -84,14 +84,14 @@ function createTitle(data) {
   var name = table[feedbackName.feedback_name];
   $('#title').append(name);
 
-  if (roleName.role_name == "selffeedback")
-  {
-      $('#title').append(" from himself");
-  }
-  else {
-    $('#title').append(" from his ");
-    $('#title').append(roleName.role_name);
-  }
+  // if (roleName.role_name == "selffeedback")
+  // {
+  //     $('#title').append(" from himself");
+  // }
+  // else {
+  //   $('#title').append(" from his ");
+  //   $('#title').append(roleName.role_name);
+  // }
 }
 
 
@@ -100,11 +100,11 @@ function appendQuestion(question, counter) {
      "<div class='question-body' id='" + counter + "'>" + counter + ": " + question.text + "</div>" +
       "<div class=radio-btn>" +
 
-        "<input type='radio' name='editList" + counter + "' value='1'>" + "Always  " +
-        "<input type='radio' name='editList" + counter + "' value='2'>" +  "Often  " +
-        "<input type='radio' name='editList" + counter + "' value='3'>" + "Sometimes  " +
-        "<input type='radio' name='editList" + counter + "' value='4'>" + "Rarely  " +
-        "<input type='radio' name='editList" + counter + "' value='5'>" +  "Never  " +
+        "<input type='radio' name='editList" + counter + "' value='1'>" + "Never    " +
+        "<input type='radio' name='editList" + counter + "' value='2'>" +  "Rarely    " +
+        "<input type='radio' name='editList" + counter + "' value='3'>" + "Sometimes    " +
+        "<input type='radio' name='editList" + counter + "' value='4'>" + "Often    " +
+        "<input type='radio' name='editList" + counter + "' value='5'>" +  "Always    " +
 
       "</div>" +
      "</div>";

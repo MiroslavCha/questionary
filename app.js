@@ -76,6 +76,9 @@ app.post('/quest', function(req, res) {
 		}
 	}
 
+  commentBad = commentBad.replace(/['"]+/g, '');
+	commentGood = commentGood.replace(/['"]+/g, '');
+
 	console.log('Database name:' + dbname);
 
 	const pg = require('pg');
@@ -91,25 +94,25 @@ app.post('/quest', function(req, res) {
     	process.exit(1);
   	}
 
-		var results = [];
-		var que = 'SELECT * FROM ' + dbname + ' WHERE ip = \'' + ipAddress + '\';'
-
-		const query = client.query(que, function (err, result) {
-			if (err) {
-				done();
-				return console.error('error happened during select query', err);
-			}
-		});
-	 	// Stream results back one row at a time
-	 	query.on('row', (row) => {
-		 	results.push(row);
-	 	});
-
-    query.on('end', () => {
-		//check ip
-		if (results.length == 0)
-		{
-			console.log("Zaznam este neexistuje");
+		// var results = [];
+		// var que = 'SELECT * FROM ' + dbname + ' WHERE ip = \'' + ipAddress + '\';'
+		//
+		// const query = client.query(que, function (err, result) {
+		// 	if (err) {
+		// 		done();
+		// 		return console.error('error happened during select query', err);
+		// 	}
+		// });
+		// 	// Stream results back one row at a time
+		// 	query.on('row', (row) => {
+		//  	results.push(row);
+		// 	});
+		//
+    // query.on('end', () => {
+		// //check ip
+		// if (results.length == 0)
+		// {
+		 	console.log("Zaznam este neexistuje");
 
 			var que = 'INSERT INTO ' + dbname + ' (role_name, ans1, ans2, ans3, ans4, ans5, ans6, ans7, ans8, ans9, ans10, \
 				ans11, ans12, ans13, ans14, ans15, ans16, ans17, ans18, ans19, ans20, ans21, ans22, ans23, ans24, \
@@ -133,18 +136,17 @@ app.post('/quest', function(req, res) {
         		return console.error('error happened during insert query', err);
       		}
 				});
-		}
-		else {
-			console.log("Zaznam uz existuje");
-		}
-	});
+		// }
+		// else {
+		// 	console.log("Zaznam uz existuje");
+		// }
+	//});
 	});
 
 
 	//res.status(404).end();
 	res.status(200).end();
-}
-)
+})
 
 generateLinks();
 
@@ -169,6 +171,7 @@ function generateLinks()
 	table[9] = "mate";
   table[10] = "subordinate";
 	table[11] = "supervisor";
+	table[12] = "external";
 
 	for (var i = 0; i < table.length; i++) {
 		var code = Base64.encode(table[i]);
