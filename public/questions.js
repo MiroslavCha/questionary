@@ -21,7 +21,7 @@ $('#upload').click(function() {
     contentType: 'application/json',
     data: prepareData(),
     success: function(data) {
-      alert("Everything went well. Yuor answers were submited. Thank you for your time!");
+      alert("Everything went well. Your answers were submited. Thank you for your time!");
     },
     error: function(XMLHttpRequest, textStatus, errorThrown) {
      alert("System error. Data were not submited! Please contact Katarina Bilikova (katarina.bilikova@kistler.com)");
